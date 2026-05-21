@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/vsawantvinay/Jenkins-Terraform.git'
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                sh '/usr/bin/terraform init'
+            }
+        }
+        stage('Terraform validate') {
+            steps {
+                sh '/usr/bin/terraform validate'
+            }
+        }
+        stage('Terraform plan') {
+            steps {
+                sh '/usr/bin/terraform plan'
+            }
+        }
+        stage('Terraform apply') {
+            steps {
+                echo "Terrafrom action is ${action}"
+                sh "/usr/bin/terraform ${action} --auto-approve"
+            }
+        }
+    }
+}
